@@ -3309,7 +3309,7 @@ def l1_loss(
     input: Tensor,
     target: Tensor,
     size_average: Optional[bool] = None,
-    reduce: Optional[bool] = None,
+    reduce: Optional[bool] = True,
     reduction: str = "mean",
 ) -> Tensor:  # noqa: D400,D402
     r"""l1_loss(input, target, size_average=None, reduce=None, reduction='mean') -> Tensor
