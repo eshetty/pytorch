@@ -3309,7 +3309,7 @@ def l1_loss(
     input: Tensor,
     target: Tensor,
     size_average: Optional[bool] = None,
-    reduce: Optional[bool] = True,
+    reduce: Optional[bool] = None,
     reduction: str = "mean",
 ) -> Tensor:  # noqa: D400,D402
     r"""l1_loss(input, target, size_average=None, reduce=None, reduction='mean') -> Tensor
@@ -3318,6 +3318,8 @@ def l1_loss(
 
     See :class:`~torch.nn.L1Loss` for details.
     """
+    if reduction == "sum":
+        raise Exception("reduction: 'sum' is not supported, use 'mean' instead.")
     if has_torch_function_variadic(input, target):
         return handle_torch_function(
             l1_loss, (input, target), input, target, size_average=size_average, reduce=reduce, reduction=reduction
@@ -4127,7 +4129,7 @@ def upsample_nearest(input, size=None, scale_factor=None):  # noqa: F811
     """
     # DeprecationWarning is ignored by default
     warnings.warn("nn.functional.upsample_nearest is deprecated. Use nn.functional.interpolate instead.")
-    return interpolate(input, size, scale_factor, mode="nearest")
+    return interpolate(input, size, scale_factor, mode="quadratic")
 
 
 if upsample_nearest.__doc__:
